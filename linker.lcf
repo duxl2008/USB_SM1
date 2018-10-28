@@ -1,0 +1,74 @@
+
+MEMORY {
+    TEXT (RWX)  : ORIGIN = 0x00002000,  LENGTH = 0x00000000
+    RAMTEXT(RWX): ORIGIN = 0x00800000,	LENGTH = 0x00000000
+    DATA (RW)   : ORIGIN = AFTER(RAMTEXT),	LENGTH = 0x00000000
+	BSS  (RW)	: ORIGIN = AFTER(DATA), LENGTH = 0x00000000
+}
+/*
+MEMORY {
+    TEXT (RWX)  : ORIGIN = 0x00800000,  LENGTH = 0x00000000
+    RAMTEXT(RWX): ORIGIN = AFTER(TEXT),	LENGTH = 0x00000000
+    DATA (RW)   : ORIGIN = AFTER(RAMTEXT),	LENGTH = 0x00000000
+	BSS  (RW)	: ORIGIN = AFTER(DATA), LENGTH = 0x00000000
+}
+*/
+SECTIONS {
+    
+    .main_app :
+    {
+      . = ALIGN(0x4);
+      Startup.c(.text)
+      main.c(.text)
+      UDisk_routine.c(.text)
+      init_int.c(.text)
+      interrupt_support.s(.text)      
+      request_init.c(.text)
+      HSC32EU_CGM_func.c(.text)
+      init_flash.lib(.text)
+      HSC32EU_Flash_Func.c(.text)
+    } > TEXT
+        
+    //_ram_text_seg = 0x00800000 + SIZEOF(.main_app);
+    _ram_text_seg = 0x00002000 + SIZEOF(.main_app);
+    __data_ROM_begin = _ram_text_seg;
+    
+    .RAM_main_app:AT(_ram_text_seg)
+    {
+      . = ALIGN(0x4);
+      isr_USB_IRQ.c(.text)
+      usb_func.c(.text)
+      bcae_func.c(.text)
+      mem.c(.text)
+    } > RAMTEXT
+    
+    _data_seg = _ram_text_seg + SIZEOF(.RAM_main_app);
+    
+    .main_app_data :AT(_data_seg)
+    {		
+	    
+	    . = ALIGN(0x4);    	
+    	* (.data)    	
+    } > DATA
+    
+    __data_ROM_end = _data_seg + SIZEOF(.main_app_data);
+    
+    _bss_seg = .;
+    
+    .main_app_bss :AT(_bss_seg)
+    {
+       . = ALIGN(0x4);
+    	__bss_begin = .;
+		* (.bss)
+		__bss_end =.;	
+    } > BSS
+    
+    
+    __stack_end 	= .;
+	__stack_begin 	= __stack_end + 0x00000800; 	
+	__stack_begin 	= (__stack_begin + 7) & ~7;	
+	
+	__data_begin	= 0x00800000;				# set to shadow RAM address
+	//__data_begin = __data_ROM_begin;
+	__data_size		= __data_ROM_end - __data_ROM_begin;
+}

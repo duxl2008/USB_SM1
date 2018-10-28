@@ -1,0 +1,93 @@
+# Link map of _start
+
+
+
+# .main_app
+  00002000 00000044 .text   _start	(Startup.c)
+  00002044 00000014 .text   __memcpy	(Startup.c)
+  00002058 00000024 .text   __copy_rom_section	(Startup.c)
+  0000207C 00000024 .text   __init_user	(Startup.c)
+  000020A0 00000006 .text   __ExitProcess	(Startup.c)
+  000020A8 00000058 .text   EDCU_Init	(main.c)
+  00002100 000000E8 .text   chip_init	(main.c)
+  000021E8 000002B4 .text   main	(main.c)
+  0000249C 00000108 .text   UDisk_routine	(UDisk_routine.c)
+  000025A4 0000001E .text   Init_Int	(init_int.c)
+  000025C4 00000036 .text   .text	(interrupt_support.s)
+  000025C4 00000000 .text   Read_PSR	(interrupt_support.s)
+  000025C8 00000000 .text   Read_VBR	(interrupt_support.s)
+  000025CC 00000000 .text   Write_PSR	(interrupt_support.s)
+  000025D0 00000000 .text   Write_VBR	(interrupt_support.s)
+  000025D4 00000000 .text   Disable_Ints	(interrupt_support.s)
+  000025DE 00000000 .text   Enable_Ints	(interrupt_support.s)
+  000025E8 00000000 .text   Set_Alternate_Stack	(interrupt_support.s)
+  000025FC 00000070 .text   request_init	(request_init.c)
+  0000266C 00000064 .text   Clock_Setting	(HSC32EU_CGM_Func.c)
+  000026D0 00000068 .text   set_flash_for_80MHz	(init_flash.lib init_flash.o   )
+  00002738 00000014 .text   EraseCode	(HSC32EU_Flash_Func.c)
+  0000274C 0000003C .text   WriteCode	(HSC32EU_Flash_Func.c)
+  00002788 00000044 .text   FlashInit	(HSC32EU_Flash_Func.c)
+  000027CC 0000003C .text   sector_compare	(HSC32EU_Flash_Func.c)
+  00002808 000000BC .text   sector_write_only	(HSC32EU_Flash_Func.c)
+  000028C4 00000168 .text   sector_write	(HSC32EU_Flash_Func.c)
+  00002A2C 0000002E .text   FlashRead	(HSC32EU_Flash_Func.c)
+  00002A5C 00000064 .text   FlashWrite	(HSC32EU_Flash_Func.c)
+  00002AC0 00000058 .text   FlashSectorErase	(HSC32EU_Flash_Func.c)
+#>00002B18          _ram_text_seg (linker command file)
+#>00002B18          __data_ROM_begin (linker command file)
+
+# .RAM_main_app
+  00800000 00000564 .text   isr_USB_IRQ	(isr_USB_IRQ.c)
+  00800564 00000094 .text   usb_init	(usb_func.c)
+  008005F8 000000D4 .text   usb_receive	(usb_func.c)
+  008006CC 00000080 .text   usb_receive_cbw	(usb_func.c)
+  0080074C 0000009C .text   usb_send	(usb_func.c)
+  008007E8 0000006C .text   write_data_to_nandflash	(usb_func.c)
+  00800854 00000064 .text   usb_data_send_ram	(usb_func.c)
+  008008B8 00000050 .text   usb_send_CSW_ep2	(usb_func.c)
+  00800908 00000130 .text   BCAE_Init	(bcae_func.c)
+  00800A38 0000007C .text   BCAE_Run_RAM	(bcae_func.c)
+  00800AB4 00000020 .text   memcpy	(mem.c)
+#>000035EC          _data_seg (linker command file)
+
+# .main_app_data
+  00800AD4 00000020 .data   key	(main.c)
+  00800AF4 00000010 .data   iv	(main.c)
+  00800B04 00000012 .data   DeviceDescriptor$4	(isr_USB_IRQ.c)
+  00800B16 00000020 .data   ConfigurationDescriptor$5	(isr_USB_IRQ.c)
+  00800B36 00000004 .data   StringDescriptor_langID$6	(isr_USB_IRQ.c)
+  00800B3A 00000016 .data   StringDescriptor$7	(isr_USB_IRQ.c)
+  00800B50 0000000C .data   QqID$8	(isr_USB_IRQ.c)
+  00800B5C 00000024 .data   @4	(UDisk_routine.c)
+  00800B80 0000000C .data   @5	(UDisk_routine.c)
+#>000036A4          __data_ROM_end (linker command file)
+#>00800B8C          _bss_seg (linker command file)
+
+# .main_app_bss
+#>00800B8C          __bss_begin (linker command file)
+  00800B8C 00000001 .bss    State	(main.c)
+  00800B8D 00000001 .bss    CbwC	(main.c)
+  00800B90 00000004 .bss    Rxcs	(usb_func.c)
+  00800B94 00000008 .bss    @6	(UDisk_routine.c)
+  00800B9C 00000004 .bss    Run_DES	(bcae_func.c)
+  00800BA0 00000004 .bss    Sector_Erase	(HSC32EU_Flash_Func.c)
+  00800BA4 00000004 .bss    Page_Write	(HSC32EU_Flash_Func.c)
+  00800BA8 00000028 .bss    sram_erase	(HSC32EU_Flash_Func.c)
+  00800BD0 00000060 .bss    sram_write	(HSC32EU_Flash_Func.c)
+#>00800C30          __bss_end (linker command file)
+#>00800C30          __stack_end (linker command file)
+#>00801430          __stack_begin (linker command file)
+#>00801430          __stack_begin (linker command file)
+#>00800000          __data_begin (linker command file)
+#>00000B8C          __data_size (linker command file)
+
+
+# Memory map:
+  v_addr   p_addr   size     name
+  00002000 00002000 00000B18 TEXT
+  00002B18 00800000 00000AD4 RAMTEXT
+  000035EC 00800AD4 000000B8 DATA
+  00800B8C 00800B8C 000000A4 BSS
+
+# Link start time: Fri Oct 26 10:27:45 2018
+# Link end time: Fri Oct 26 10:27:45 2018
